@@ -6,15 +6,18 @@
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
       async function main() {
-        await liff.init({ liffId: "1661136586-am6Lbdx6" });
-        if (liff.isLoggedIn()) {
-          const profile = await liff.getProfile();
-          const userId = profile.userId;
-          // 用你剛剛的 Google 表單 & entry.1731312727 參數
-          const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfDG9ag0jn-q3OH0vSc1YN017xfgG1AoONns4l_vVoHAHOcdg/viewform?usp=pp_url&entry.1731312727=" + encodeURIComponent(userId);
-          window.location.href = formUrl;
-        } else {
-          liff.login();
+        try {
+          await liff.init({ liffId: "1661136586-am6Lbdx6" });
+          if (liff.isLoggedIn()) {
+            const profile = await liff.getProfile();
+            const userId = profile.userId;
+            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfDG9ag0jn-q3OH0vSc1YN017xfgG1AoONns4l_vVoHAHOcdg/viewform?usp=pp_url&entry.1731312727=" + encodeURIComponent(userId);
+            window.location.href = formUrl;
+          } else {
+            liff.login();
+          }
+        } catch (err) {
+          alert("LIFF 初始化或跳轉失敗：" + err);
         }
       }
       window.onload = main;
